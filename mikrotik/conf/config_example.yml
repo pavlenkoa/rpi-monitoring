@@ -1,0 +1,21 @@
+devices:
+  - name: router
+    #address: 192.168.1.1
+    srv:
+      record: _service._udp.example.co
+    user: prometheus
+    password: yoursecret
+  - name: router2
+    #address: 192.168.2.1
+    srv:
+      record: _service._udp.example.co
+    user: prometheus
+    password: yoursecret
+
+features:
+  monitor: true
+  dhcp: true
+  dhcpl: true
+  optics: true
+  wlansta: true
+  wlanif: true
