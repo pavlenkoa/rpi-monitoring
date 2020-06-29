@@ -1,0 +1,14 @@
+*** Probes ***
+
++ FPing
+
+binary = /usr/sbin/fping
+
++ Curl
+
+binary = /usr/bin/curl
+forks = 5
+offset = 50%
+step = 300
+
+

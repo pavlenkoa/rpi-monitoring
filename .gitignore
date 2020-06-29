@@ -2,3 +2,6 @@
 mikrotik/conf/config.yml
 mikrotik/mikrotik-exporter
 transmission/transmission-exporter
+prometheus/data
+grafana/data
+pingprom/data
