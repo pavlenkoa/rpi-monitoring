@@ -11,26 +11,30 @@ menu = Net latency
 title = Network latency (ICMP pings)
 
 ++ R0
-menu = home network
+menu = R0
 title = ICMP for 185.160.89.195
 host = 185.160.89.195
 
 ++ R1
-menu = home network
+menu = R1
 title = ICMP for 91.221.235.130
 host = 91.221.235.130
 
-#++ fortnest-co-http
-#menu = fortnest.co http
-#title = HTTP latency for fortnest.co
-##probe = EchoPingHttp
-##ignore_cache = yes
-##accept_redirects = yes
-#host = fortnest.co
+++ hotbun.co
+menu = hotbun.co
+title = curl https://hotbun.co
+probe = Curl
+follow_redirects = yes
+include_redirects = yes
+pings = 5
+ssl2 = 1
+timeout = 20
+host = hotbun.co
+urlformat = https://%host%/
 
-++ fortnest-co-https
-menu = fortnest.co https
-title = Fetch fortnest.co with Curl
+++ fortnest.co
+menu = fortnest.co
+title = curl https://fortnest.co
 probe = Curl
 follow_redirects = yes
 include_redirects = yes

@@ -1,12 +1,8 @@
 version: '3'
 
-volumes:
-  prometheus_data: {}
-  grafana_data: {}
-
 services:
   grafana:
-    image: grafana/grafana:latest-ubuntu
+    image: grafana/grafana:7.0.0
     user: "${UID}:${GID}"
     depends_on:
       - prometheus

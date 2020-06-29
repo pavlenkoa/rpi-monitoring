@@ -2,4 +2,4 @@
 mikrotik/conf/config.yml
 prometheus/data
 grafana/data
-pingprom/data
+smokeping/data
