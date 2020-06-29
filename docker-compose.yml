@@ -7,6 +7,7 @@ volumes:
 services:
   grafana:
     image: grafana/grafana:latest-ubuntu
+    user: "${UID}:${GID}"
     depends_on:
       - prometheus
     restart: unless-stopped
@@ -16,16 +17,14 @@ services:
       - ./grafana/conf:/etc/grafana/provisioning
       - ./grafana/data:/var/lib/grafana
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
 
   prometheus:
     image: prom/prometheus:v2.19.2
+    user: "${UID}:${GID}"
     depends_on:
       - node_exporter
-      - mikrotik_exporter
-      - cadvisor
     restart: unless-stopped
     ports:
       - 9090:9090
@@ -37,7 +36,6 @@ services:
   smokeping:
     image: linuxserver/smokeping:arm32v7-latest
     restart: unless-stopped
-    container_name: smokeping
     ports:
       - 8088:80
     volumes:
@@ -64,7 +62,7 @@ services:
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
 
   mikrotik_exporter:
-    image: fortnest/mikrotik-exporter-arm:latest
+    image: andreiker/mikrotik-exporter-arm:latest
     restart: unless-stopped
     ports:
       - 9436:9436
@@ -72,7 +70,7 @@ services:
       - ./mikrotik/conf:/app/conf/
 
   transmission_exporter:
-    image: fortnest/transmission-exporter-arm:latest
+    image: andreiker/transmission-exporter-arm:latest
     restart: unless-stopped
     ports:
       - 19091:19091
@@ -84,7 +82,7 @@ services:
       - WEB_PATH=${WEB_PATH}
 
   cadvisor:
-    image: fortnest/cadvisor-arm:latest
+    image: andreiker/cadvisor-arm:latest
     restart: unless-stopped
     ports:
       - 8080:8080

@@ -23,7 +23,7 @@ scrape_configs:
     scrape_interval: 10s
     dns_sd_configs:
       - names:
-        - 'mikrotik'
+        - 'mikrotik_exporter'
         type: 'A'
         port: 9436
 
