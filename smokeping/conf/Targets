@@ -20,30 +20,6 @@ menu = R1
 title = ICMP for 91.221.235.130
 host = 91.221.235.130
 
-++ hotbun.co
-menu = hotbun.co
-title = curl https://hotbun.co
-probe = Curl
-follow_redirects = yes
-include_redirects = yes
-pings = 5
-ssl2 = 1
-timeout = 20
-host = hotbun.co
-urlformat = https://%host%/
-
-++ fortnest.co
-menu = fortnest.co
-title = curl https://fortnest.co
-probe = Curl
-follow_redirects = yes
-include_redirects = yes
-pings = 5
-ssl2 = 1
-timeout = 20
-host = fortnest.co
-urlformat = https://%host%/
-
 + DNS
 menu = DNS
 title = DNS

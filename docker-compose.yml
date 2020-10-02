@@ -29,6 +29,17 @@ services:
       - ./prometheus/data:/prometheus
     command: ['--config.file=/etc/prometheus/prometheus.yml']
 
+  alertmanager:
+    image: prom/alertmanager:v0.21.0
+    restart: unless-stopped
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
   smokeping:
     image: linuxserver/smokeping:arm32v7-latest
     restart: unless-stopped
@@ -42,11 +53,37 @@ services:
       - PGID=1000
       - TZ=Europe/Kyiv
 
+  alertmanagerbot:
+      image: andreiker/alertmanager-bot-arm:latest
+      environment:
+          - ALERTMANAGER_URL=http://alertmanager:9093
+          - LISTEN_ADDR=0.0.0.0:8187
+          - BOLT_PATH=/data/bot.db
+          - STORE=bolt
+          - TELEGRAM_ADMIN=${TELEGRAM_ADMIN}
+          - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+          - TEMPLATE_PATHS=/etc/alertmanagerbot/default.tmpl
+      volumes:
+          - ./alertmanagerbot/:/etc/alertmanagerbot/
+          - /srv/monitoring/alertmanager-bot:/data
+      ports:
+          - 8187
+
+  blackbox:
+     image: prom/blackbox-exporter:v0.17.0
+     privileged: true
+     volumes: 
+       - ./blackbox/:/config
+     ports: 
+       - 9115
+     command: ['--config.file=/config/blackbox.yml']
   node_exporter:
     image: prom/node-exporter:v1.0.1
     restart: unless-stopped
-    ports:
-      - 9100:9100
+    expose:
+      - 9100
+    extra_hosts:
+      - "tranmission:192.168.1.2"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -60,16 +97,16 @@ services:
   mikrotik_exporter:
     image: andreiker/mikrotik-exporter-arm:latest
     restart: unless-stopped
-    ports:
-      - 9436:9436
+    expose:
+      - 9436
     volumes:
       - ./mikrotik/conf:/app/conf/
 
   transmission_exporter:
     image: andreiker/transmission-exporter-arm:latest
     restart: unless-stopped
-    ports:
-      - 19091:19091
+    expose:
+      - 19091
     environment:
       - TRANSMISSION_ADDR=${TRANSMISSION_ADDR}
       - TRANSMISSION_USERNAME=${TRANSMISSION_USERNAME}
@@ -80,8 +117,8 @@ services:
   cadvisor:
     image: andreiker/cadvisor-arm:latest
     restart: unless-stopped
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw

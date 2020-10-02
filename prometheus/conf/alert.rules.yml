@@ -1,0 +1,18 @@
+groups:
+- name: alerts
+  rules:
+  - alert: website_down
+    expr: probe_success == 0
+    for: 10m
+    labels:
+      severity: page
+    annotations:
+    description: "{{ $labels.job }}: {{ $labels.instance }} has been down for more than 10 minutes."
+  - alert: high_load
+    expr: node_load1 > 3
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} under high load"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} is under high load."
