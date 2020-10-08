@@ -54,29 +54,32 @@ services:
       - TZ=Europe/Kyiv
 
   alertmanagerbot:
-      image: andreiker/alertmanager-bot-arm:latest
-      environment:
-          - ALERTMANAGER_URL=http://alertmanager:9093
-          - LISTEN_ADDR=0.0.0.0:8187
-          - BOLT_PATH=/data/bot.db
-          - STORE=bolt
-          - TELEGRAM_ADMIN=${TELEGRAM_ADMIN}
-          - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
-          - TEMPLATE_PATHS=/etc/alertmanagerbot/default.tmpl
-      volumes:
-          - ./alertmanagerbot/:/etc/alertmanagerbot/
-          - /srv/monitoring/alertmanager-bot:/data
-      ports:
-          - 8187
+    image: andreiker/alertmanager-bot-arm:latest
+    restart: unless-stopped
+    environment:
+      - ALERTMANAGER_URL=http://alertmanager:9093
+      - LISTEN_ADDR=0.0.0.0:8187
+      - BOLT_PATH=/data/bot.db
+      - STORE=bolt
+      - TELEGRAM_ADMIN=${TELEGRAM_ADMIN}
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - TEMPLATE_PATHS=/etc/alertmanagerbot/default.tmpl
+    volumes:
+      - ./alertmanagerbot/:/etc/alertmanagerbot/
+      - /srv/monitoring/alertmanager-bot:/data
+    ports:
+      - 8187
 
   blackbox:
-     image: prom/blackbox-exporter:v0.17.0
-     privileged: true
-     volumes: 
-       - ./blackbox/:/config
-     ports: 
-       - 9115
-     command: ['--config.file=/config/blackbox.yml']
+    image: prom/blackbox-exporter:v0.17.0
+    restart: unless-stopped
+    privileged: true
+    volumes: 
+      - ./blackbox/:/config
+    ports: 
+      - 9115
+    command: ['--config.file=/config/blackbox.yml']
+
   node_exporter:
     image: prom/node-exporter:v1.0.1
     restart: unless-stopped
