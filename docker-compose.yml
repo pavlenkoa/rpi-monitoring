@@ -2,8 +2,8 @@ version: '3'
 
 services:
   grafana:
-    image: grafana/grafana:7.0.0
-    user: "${UID}:${GID}"
+    image: grafana/grafana:9.2.6
+    user: 1000:1000
     depends_on:
       - prometheus
     restart: unless-stopped
@@ -17,8 +17,8 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
 
   prometheus:
-    image: prom/prometheus:v2.19.2
-    user: "${UID}:${GID}"
+    image: prom/prometheus:v2.40.2
+    user: 1000:1000
     depends_on:
       - node_exporter
     restart: unless-stopped
@@ -30,7 +30,7 @@ services:
     command: ['--config.file=/etc/prometheus/prometheus.yml']
 
   alertmanager:
-    image: prom/alertmanager:v0.21.0
+    image: prom/alertmanager:v0.24.0
     restart: unless-stopped
     ports:
       - 9093:9093
@@ -53,32 +53,17 @@ services:
       - PGID=1000
       - TZ=Europe/Kyiv
 
-  alertmanagerbot:
-      image: andreiker/alertmanager-bot-arm:latest
-      environment:
-          - ALERTMANAGER_URL=http://alertmanager:9093
-          - LISTEN_ADDR=0.0.0.0:8187
-          - BOLT_PATH=/data/bot.db
-          - STORE=bolt
-          - TELEGRAM_ADMIN=${TELEGRAM_ADMIN}
-          - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
-          - TEMPLATE_PATHS=/etc/alertmanagerbot/default.tmpl
-      volumes:
-          - ./alertmanagerbot/:/etc/alertmanagerbot/
-          - /srv/monitoring/alertmanager-bot:/data
-      ports:
-          - 8187
-
   blackbox:
-     image: prom/blackbox-exporter:v0.17.0
+     image: prom/blackbox-exporter:v0.22.0
      privileged: true
      volumes: 
        - ./blackbox/:/config
      ports: 
        - 9115
      command: ['--config.file=/config/blackbox.yml']
+
   node_exporter:
-    image: prom/node-exporter:v1.0.1
+    image: prom/node-exporter:v1.4.0
     restart: unless-stopped
     expose:
       - 9100

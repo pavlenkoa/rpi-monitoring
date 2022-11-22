@@ -1,0 +1,10 @@
+route:
+    receiver: 'telegram'
+
+receivers:
+- name: 'telegram'
+  telegram_configs:
+  - send_resolved: true
+    api_url: "https://api.telegram.org"
+    bot_token: <bot_token>
+    chat_id: <chat_id>

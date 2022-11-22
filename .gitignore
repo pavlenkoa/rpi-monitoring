@@ -1,5 +1,4 @@
 .env
 mikrotik/conf/config.yml
-prometheus/data
-grafana/data
+alertmanager/config.yml
 smokeping/data
