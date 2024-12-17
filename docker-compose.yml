@@ -40,19 +40,6 @@ services:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
 
-  smokeping:
-    image: linuxserver/smokeping:arm32v7-latest
-    restart: unless-stopped
-    ports:
-      - 8088:80
-    volumes:
-      - ./smokeping/conf:/config
-      - ./smokeping/data:/data
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Kyiv
-
   blackbox:
      image: prom/blackbox-exporter:v0.22.0
      privileged: true
@@ -80,7 +67,7 @@ services:
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
 
   mikrotik_exporter:
-    image: andreiker/mikrotik-exporter-arm:latest
+    image: andreiker/mikrotik-exporter-arm64:1.0.12-DEVEL
     restart: unless-stopped
     expose:
       - 9436
@@ -88,7 +75,7 @@ services:
       - ./mikrotik/conf:/app/conf/
 
   transmission_exporter:
-    image: andreiker/transmission-exporter-arm:latest
+    image: andreiker/transmission-exporter-arm64:latest
     restart: unless-stopped
     expose:
       - 19091
@@ -100,7 +87,7 @@ services:
       - WEB_PATH=${WEB_PATH}
 
   cadvisor:
-    image: andreiker/cadvisor-arm:latest
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.46.0 
     restart: unless-stopped
     expose:
       - 8080

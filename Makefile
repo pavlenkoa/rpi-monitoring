@@ -8,19 +8,13 @@ cleandown:
 	docker-compose down -v
 
 exporters:
-	docker build -f mikrotik/Dockerfile -t andreiker/mikrotik-exporter-arm:latest .
-	docker build -f cadvisor/Dockerfile -t andreiker/cadvisor-arm:latest .
-	docker build -f transmission/Dockerfile -t andreiker/transmission-exporter-arm:latest .
-	docker build -f alertmanagerbot/Dockerfile -t andreiker/alertmanager-bot-arm:latest .
+	docker build -f mikrotik/Dockerfile -t andreiker/mikrotik-exporter-arm64:latest .
+	docker build -f transmission/Dockerfile -t andreiker/transmission-exporter-arm64:latest .
 
 mikrotik:
-	docker build -f mikrotik/Dockerfile -t andreiker/mikrotik-exporter-arm:latest .
-
-cadvisor:
-	docker build -f cadvisor/Dockerfile -t andreiker/cadvisor-arm:latest .
+	docker build -f mikrotik/Dockerfile -t andreiker/mikrotik-exporter-arm64:1.0.12-DEVEL .
+	
 
 transmission:
-	docker build -f transmission/Dockerfile -t andreiker/transmission-exporter-arm:latest .
+	docker build -f transmission/Dockerfile -t andreiker/transmission-exporter-arm64:latest .
 
-alertmanagerbot:
-	docker build -f alertmanagerbot/Dockerfile -t andreiker/alertmanager-bot-arm:latest .

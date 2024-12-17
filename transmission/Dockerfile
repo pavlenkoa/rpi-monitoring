@@ -1,5 +1,5 @@
 # Builder
-FROM arm32v7/golang as builder
+FROM arm64v8/golang as builder
 
 ENV TRANSMISSION_VERSION "master"
 
@@ -12,7 +12,7 @@ WORKDIR /go/src/github.com/metalmatze/transmission-exporter
 RUN make build
 
 # Image for usage
-FROM arm32v7/debian
+FROM arm64v8/debian
 
 RUN apt-get update && apt-get install ca-certificates -y && apt-get clean autoclean && rm -rf /var/lib/apt/lists/*
 
