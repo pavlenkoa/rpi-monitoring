@@ -1595,8 +1595,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "r0.hotbun.co",
-          "value": "r0.hotbun.co"
+          "text": "r0.pavlenko.sh",
+          "value": "r0.pavlenko.sh"
         },
         "datasource": "Prometheus",
         "definition": "label_values(mikrotik_system_uptime,address)",
